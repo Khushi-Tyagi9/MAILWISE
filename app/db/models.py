@@ -11,4 +11,5 @@ class Email(Base):
     body = Column(Text)
     folder = Column(String)
     urgency = Column(String, nullable=True)
+    tasks = Column(Text, nullable=True)          # <- new line, stores tasks as JSON string
     fetched_at = Column(DateTime, default=datetime.utcnow)

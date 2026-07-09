@@ -30,3 +30,19 @@ Now classify this email. Respond with ONLY valid JSON in this exact format, noth
 Email subject: {subject}
 Email body: {body}
 """
+TASK_EXTRACTION_PROMPT = """You are an assistant that extracts actionable tasks from emails.
+
+Read the email below and identify genuine action items - things the recipient personally needs to do, like replying to a specific person, submitting a document by a deadline, or using a time-limited verification code.
+
+Do NOT extract marketing calls-to-action as tasks. Ignore things like "click to try [product]", "apply now" links inside job/internship digests, "read this article", or any promotional prompt urging engagement with a product or platform. These are not real obligations, even though the email phrases them as actions.
+
+If there are no genuine action items, return an empty list.
+
+Respond with ONLY valid JSON in this exact format, nothing else:
+{{"tasks": ["task description 1", "task description 2"]}}
+
+If no tasks: {{"tasks": []}}
+
+Email subject: {subject}
+Email body: {body}
+"""

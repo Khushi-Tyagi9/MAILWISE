@@ -21,7 +21,7 @@ if __name__ == "__main__":
     init_db()  # creates the table if it doesn't exist yet
     
     service = get_gmail_service()
-    messages = list_recent_messages(service, max_results=10)
+    messages = list_recent_messages(service, max_results=40)
     print(f"Found {len(messages)} messages\n")
 
     for m in messages:

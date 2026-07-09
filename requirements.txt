@@ -5,3 +5,4 @@ uvicorn
 sqlalchemy
 python-dotenv
 beautifulsoup4
+groq

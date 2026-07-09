@@ -24,3 +24,16 @@ Remaining errors cluster around automated-but-personally-relevant notifications
 (e.g. LinkedIn "X accepted your invitation") which sit ambiguously between 
 `routine` and `newsletter`. A future iteration could split these into a 
 dedicated `notification` category.
+
+## Task extraction
+
+**Initial version:** extracted marketing calls-to-action as if they were genuine 
+obligations (e.g. "Click to try LinkedIn Premium", "apply before they close!" 
+repeated for every internship in a digest email).
+
+**Fix:** added explicit negative examples to the prompt distinguishing genuine 
+personal obligations from promotional CTAs.
+
+**Result:** across 40 real inbox emails, the improved prompt correctly extracted 
+only 1 genuine task (a time-limited verification code) and returned an empty 
+list for all 39 marketing/notification emails - matching manual inspection.

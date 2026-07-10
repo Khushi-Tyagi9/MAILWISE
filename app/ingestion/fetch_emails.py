@@ -17,9 +17,16 @@ def extract_subject(message):
             return header['value']
     return "(no subject)"
 
+def extract_sender(message):
+    headers = message['payload']['headers']
+    for header in headers:
+        if header['name'] == 'From':
+            return header['value']
+    return "(unknown sender)"
+
 if __name__ == "__main__":
-    init_db()  # creates the table if it doesn't exist yet
-    
+    init_db()
+
     service = get_gmail_service()
     messages = list_recent_messages(service, max_results=40)
     print(f"Found {len(messages)} messages\n")
@@ -27,6 +34,7 @@ if __name__ == "__main__":
     for m in messages:
         detail = get_message_detail(service, m['id'])
         subject = extract_subject(detail)
+        sender = extract_sender(detail)
         body = get_plain_text_body(detail)
-        save_email(gmail_id=m['id'], subject=subject, body=body, folder="inbox")
+        save_email(gmail_id=m['id'], subject=subject, body=body, folder="inbox", sender=sender)
         print(f"Saved: {subject}")

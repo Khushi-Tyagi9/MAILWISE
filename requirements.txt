@@ -6,3 +6,5 @@ sqlalchemy
 python-dotenv
 beautifulsoup4
 groq
+chromadb
+sentence-transformers

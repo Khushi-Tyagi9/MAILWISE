@@ -5,3 +5,4 @@ __pycache__/
 credentials/credentials.json
 token.pickle
 *.db
+chroma_data/

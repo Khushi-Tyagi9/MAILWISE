@@ -46,3 +46,17 @@ If no tasks: {{"tasks": []}}
 Email subject: {subject}
 Email body: {body}
 """
+DRAFT_REPLY_PROMPT = """You are helping draft an email reply in the recipient's own writing style.
+
+Below are examples of how this person has written similar emails in the past:
+
+{examples}
+
+Now, using a similar tone and style, draft a reply to this new email:
+
+Subject: {subject}
+Body: {body}
+
+Respond with ONLY valid JSON in this exact format, nothing else:
+{{"draft": "the drafted reply text here"}}
+"""

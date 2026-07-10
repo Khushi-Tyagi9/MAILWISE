@@ -46,14 +46,17 @@ If no tasks: {{"tasks": []}}
 Email subject: {subject}
 Email body: {body}
 """
-DRAFT_REPLY_PROMPT = """You are helping draft an email reply in the recipient's own writing style.
+DRAFT_REPLY_PROMPT = """You are helping the email account owner draft a reply to an email they RECEIVED.
 
-Below are examples of how this person has written similar emails in the past:
+Below are examples of emails this person has SENT in the past (their own writing style/voice - use these only to match tone, word choice, and sign-off style):
 
 {examples}
 
-Now, using a similar tone and style, draft a reply to this new email:
+Now draft a reply to this NEW incoming email, sent to the account owner by: {sender}
 
+Important context: the account owner is a private individual, NOT a company or support team. They are always the one REPLYING as themselves, a normal person - never as a business, customer support agent, or company representative, regardless of what the incoming email is about.
+
+Incoming email:
 Subject: {subject}
 Body: {body}
 

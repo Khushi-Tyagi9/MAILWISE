@@ -37,3 +37,26 @@ personal obligations from promotional CTAs.
 **Result:** across 40 real inbox emails, the improved prompt correctly extracted 
 only 1 genuine task (a time-limited verification code) and returned an empty 
 list for all 39 marketing/notification emails - matching manual inspection.
+## Retrieval and confidence scoring
+
+**Bug found:** initial confidence scoring formula assumed Chroma's cosine distance 
+ranges 0-1, producing artificially low confidence scores (e.g. 0.29 for a genuinely 
+strong match). Inspecting raw distance output revealed the true range is 0-2 
+(a mathematical consequence of cosine distance = 1 - cosine similarity, where 
+similarity itself ranges -1 to 1). Recalibrated the formula accordingly, 
+correcting the same match's score from 0.29 to 0.65.
+
+## Draft generation
+
+**Working:** RAG-grounded draft generation successfully retrieves similar past 
+sent emails and produces drafts matching the user's real writing style and tone, 
+including reusing specific real details (e.g. order numbers) from retrieved context.
+
+**Known limitation:** the draft generator occasionally inverts sender/recipient 
+perspective - e.g. when asked to draft a reply to an incoming refund status 
+inquiry, it sometimes writes as if responding *as* customer support rather than 
+*as* the customer following up, because retrieved examples (the user's own past 
+refund requests) share topical similarity but differ in directional context. 
+A future iteration would make the prompt explicitly state the reply direction 
+(recipient replying to sender) rather than relying on retrieved examples alone 
+to convey that.

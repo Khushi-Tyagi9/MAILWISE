@@ -5,8 +5,11 @@ class EmailOut(BaseModel):
     id: int
     subject: str
     sender: Optional[str]
+    body: Optional[str]
     urgency: Optional[str]
-    status: Optional[str] = None
+    draft: Optional[str]
+    confidence: Optional[str]
+    draft_status: Optional[str]
 
     class Config:
         from_attributes = True

@@ -10,3 +10,5 @@ beautifulsoup4
 chromadb
 sentence-transformers
 pytest
+streamlit
+requests

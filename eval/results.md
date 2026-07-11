@@ -69,3 +69,11 @@ would need relabeling to reflect the new category - noted as future work.)
 
 Dockerfile builds successfully - base image, dependencies, app code, exposed 
 port 8000, uvicorn entrypoint.
+
+## Running the UI
+
+With the backend running (`uvicorn app.main:app --reload`), in a separate terminal:
+```bash
+streamlit run frontend/dashboard.py
+```
+Opens a browser UI to sync emails, classify them, and generate drafts — no manual API calls needed.

@@ -14,7 +14,10 @@ class Email(Base):
     urgency = Column(String, nullable=True)
     tasks = Column(Text, nullable=True)
     fetched_at = Column(DateTime, default=datetime.utcnow)
-
+class SyncState(Base):
+    __tablename__ = "sync_state"
+    key = Column(String, primary_key=True)
+    value = Column(String)
 class RequestLog(Base):
     __tablename__ = "request_logs"
 

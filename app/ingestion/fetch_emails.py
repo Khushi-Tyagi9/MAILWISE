@@ -2,6 +2,7 @@ from app.auth.gmail_auth import get_gmail_service
 from app.ingestion.parser import get_plain_text_body
 from app.db.session import init_db
 from app.db.crud import save_email
+from app.db.crud import save_email, get_sync_state, set_sync_state
 
 def list_recent_messages(service, max_results=10):
     response = service.users().messages().list(userId='me', maxResults=max_results).execute()
@@ -24,11 +25,40 @@ def extract_sender(message):
             return header['value']
     return "(unknown sender)"
 
+def incremental_sync(service):
+    last_history_id = get_sync_state("gmail_history_id")
+
+    if not last_history_id:
+        messages = list_recent_messages(service, max_results=10)
+        profile = service.users().getProfile(userId='me').execute()
+        set_sync_state("gmail_history_id", str(profile['historyId']))
+        return messages
+
+    try:
+        history = service.users().history().list(
+            userId='me', startHistoryId=last_history_id, historyTypes=['messageAdded']
+        ).execute()
+
+        messages = []
+        for record in history.get('history', []):
+            for added in record.get('messagesAdded', []):
+                messages.append(added['message'])
+
+        profile = service.users().getProfile(userId='me').execute()
+        set_sync_state("gmail_history_id", str(profile['historyId']))
+        return messages
+    except Exception:
+        # historyId too old/invalid - fall back to regular fetch
+        messages = list_recent_messages(service, max_results=10)
+        profile = service.users().getProfile(userId='me').execute()
+        set_sync_state("gmail_history_id", str(profile['historyId']))
+        return messages
+
 if __name__ == "__main__":
     init_db()
 
     service = get_gmail_service()
-    messages = list_recent_messages(service, max_results=40)
+    messages = incremental_sync(service)
     print(f"Found {len(messages)} messages\n")
 
     for m in messages:

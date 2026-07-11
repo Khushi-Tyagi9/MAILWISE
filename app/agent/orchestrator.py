@@ -18,7 +18,7 @@ def process_email(subject, body):
         "status": None,
     }
 
-    if urgency == "newsletter":
+    if urgency in ("newsletter", "notification"):
         result["status"] = "auto_archived"
         return result
 

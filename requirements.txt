@@ -1,11 +1,12 @@
-google-auth-oauthlib
-google-api-python-client
+--extra-index-url https://download.pytorch.org/whl/cpu
 fastapi
 uvicorn
 sqlalchemy
 python-dotenv
-beautifulsoup4
+google-auth-oauthlib
+google-api-python-client
 groq
+beautifulsoup4
 chromadb
 sentence-transformers
 pytest

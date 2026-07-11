@@ -7,6 +7,8 @@ from app.agent.draft_generator import generate_draft
 from app.agent.confidence import score_confidence, should_auto_save
 import json
 
+YOUR_EMAIL = "khushityagi1008@gmail.com"
+
 def process_all_pending():
     session = SessionLocal()
     try:
@@ -16,6 +18,12 @@ def process_all_pending():
         print(f"Processing {len(emails)} emails...")
 
         for email in emails:
+            if YOUR_EMAIL in (email.sender or "").lower():
+                email.draft_status = "auto_archived"
+                email.urgency = "notification"
+                session.commit()
+                continue
+
             urgency = classify_urgency(email.subject or "", email.body or "", email.sender or "")
             email.urgency = urgency
 

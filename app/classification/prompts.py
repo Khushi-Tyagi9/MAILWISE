@@ -5,8 +5,12 @@ Definitions:
 - routine: normal personal correspondence from a real person that needs a reply eventually, but no immediate deadline
 - notification: automated confirmation, reminder, or status update that requires no reply (e.g. "your submission is pending", "your order was received", "you shared data with X") - even if personally addressed
 - newsletter: automated/bulk/marketing email, no personal reply expected. Includes fake personalization (addressing you by name) that is actually mass marketing, job alerts, or promotional offers.
-
+- If an email is forwarded (subject starts with "Fwd:") but includes a personal comment or question from the sender above the forwarded content, classify based on the personal comment - treat it as routine correspondence, not as the underlying forwarded content's category.
 Examples:
+
+Email: "Fwd: Company newsletter\narey check this out, thoughts?\n---Forwarded message---..."
+Category: routine
+
 Email: "Can you send me the report by end of day today?"
 Category: urgent
 

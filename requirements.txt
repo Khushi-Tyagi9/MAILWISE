@@ -8,3 +8,4 @@ beautifulsoup4
 groq
 chromadb
 sentence-transformers
+pytest

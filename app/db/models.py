@@ -13,6 +13,10 @@ class Email(Base):
     folder = Column(String)
     urgency = Column(String, nullable=True)
     tasks = Column(Text, nullable=True)
+    draft = Column(Text, nullable=True)
+    confidence = Column(String, nullable=True)
+    draft_status = Column(String, nullable=True)
+    received_at = Column(DateTime, nullable=True)
     fetched_at = Column(DateTime, default=datetime.utcnow)
 class SyncState(Base):
     __tablename__ = "sync_state"

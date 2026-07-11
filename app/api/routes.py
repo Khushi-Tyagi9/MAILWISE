@@ -8,14 +8,15 @@ import json
 router = APIRouter()
 
 @router.post("/sync")
+@router.post("/sync")
 def sync_emails():
-    from app.ingestion.fetch_emails import get_gmail_service, list_recent_messages, get_message_detail, extract_subject, extract_sender
+    from app.ingestion.fetch_emails import get_gmail_service, incremental_sync, get_message_detail, extract_subject, extract_sender
     from app.ingestion.parser import get_plain_text_body
     from app.db.crud import save_email
 
     init_db()
     service = get_gmail_service()
-    messages = list_recent_messages(service, max_results=10)
+    messages = incremental_sync(service)
 
     count = 0
     for m in messages:
@@ -30,10 +31,10 @@ def sync_emails():
 
 
 @router.get("/emails", response_model=list[EmailOut])
-def get_emails():
+def get_emails(folder: str = "inbox"):
     session = SessionLocal()
     try:
-        emails = session.query(Email).all()
+        emails = session.query(Email).filter(Email.folder == folder).all()
         return emails
     finally:
         session.close()

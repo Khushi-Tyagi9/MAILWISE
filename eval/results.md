@@ -79,3 +79,11 @@ about an order, echoing phrasing from a retrieved example rather than reasoning
 about the actual incoming email). A future iteration would need to more clearly 
 separate "style reference only" from "content" in how retrieved examples are 
 presented to the model.
+
+## Taxonomy update: added 'notification' category
+
+Found automated notifications (e.g. "your submission is pending") were being 
+misrouted into `routine`, triggering unnecessary draft generation. Added a 4th 
+category, `notification`, and updated the orchestrator to skip drafting for it, 
+same as newsletters. (Note: original 36-email eval set predates this change and 
+would need relabeling to reflect the new category - noted as future work.)

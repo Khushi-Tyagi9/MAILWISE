@@ -1,19 +1,26 @@
-URGENCY_CLASSIFICATION_PROMPT = """You are an email triage assistant. Classify the following email into exactly one category: urgent, routine, or newsletter.
+URGENCY_CLASSIFICATION_PROMPT = """You are an email triage assistant. Classify the following email into exactly one category: urgent, routine, notification, or newsletter.
 
 Definitions:
 - urgent: requires a response or action within 24 hours (deadlines, direct questions, time-sensitive requests, verification codes, login links)
-- routine: normal personal correspondence that needs a reply eventually, but no immediate deadline
-- newsletter: automated/bulk/marketing email, no personal reply expected. This includes emails that use fake personalization (addressing you by name) but are actually mass marketing, job alerts, promotional offers, or platform notifications - not real correspondence from a specific person you know.
+- routine: normal personal correspondence from a real person that needs a reply eventually, but no immediate deadline
+- notification: automated confirmation, reminder, or status update that requires no reply (e.g. "your submission is pending", "your order was received", "you shared data with X") - even if personally addressed
+- newsletter: automated/bulk/marketing email, no personal reply expected. Includes fake personalization (addressing you by name) that is actually mass marketing, job alerts, or promotional offers.
 
 Examples:
-Email: "Can you send me the report by end of day today? Client meeting depends on it."
+Email: "Can you send me the report by end of day today?"
 Category: urgent
 
-Email: "Your verification code is 482913. This code expires in 10 minutes."
+Email: "Your verification code is 482913. Expires in 10 minutes."
 Category: urgent
 
-Email: "Hey, wanted to check if you're free for coffee sometime next week."
+Email: "Hey, wanted to check if you're free for coffee next week."
 Category: routine
+
+Email: "Reminder! Your submission is pending for Round 1. Complete it to be eligible."
+Category: notification
+
+Email: "You shared some Google Account data with Claude."
+Category: notification
 
 Email: "Your weekly newsletter: Top 10 AI trends this week."
 Category: newsletter
@@ -21,11 +28,8 @@ Category: newsletter
 Email: "John, apply now to this job that matches your profile!"
 Category: newsletter
 
-Email: "Sarah, here are 5 new internships picked just for you based on your interests."
-Category: newsletter
-
 Now classify this email. Respond with ONLY valid JSON in this exact format, nothing else:
-{{"urgency": "urgent" | "routine" | "newsletter"}}
+{{"urgency": "urgent" | "routine" | "notification" | "newsletter"}}
 
 Email subject: {subject}
 Email body: {body}

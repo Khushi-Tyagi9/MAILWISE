@@ -1,5 +1,6 @@
 from app.db.session import SessionLocal
 from app.db.models import Email
+from app.db.models import SyncState
 
 def save_email(gmail_id, subject, body, folder, sender=None):
     session = SessionLocal()
@@ -18,5 +19,26 @@ def save_email(gmail_id, subject, body, folder, sender=None):
         session.add(email)
         session.commit()
         return email
+    finally:
+        session.close()
+        
+def get_sync_state(key):
+    session = SessionLocal()
+    try:
+        row = session.query(SyncState).filter_by(key=key).first()
+        return row.value if row else None
+    finally:
+        session.close()
+
+def set_sync_state(key, value):
+    session = SessionLocal()
+    try:
+        row = session.query(SyncState).filter_by(key=key).first()
+        if row:
+            row.value = value
+        else:
+            row = SyncState(key=key, value=value)
+            session.add(row)
+        session.commit()
     finally:
         session.close()

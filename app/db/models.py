@@ -14,3 +14,12 @@ class Email(Base):
     urgency = Column(String, nullable=True)
     tasks = Column(Text, nullable=True)
     fetched_at = Column(DateTime, default=datetime.utcnow)
+
+class RequestLog(Base):
+    __tablename__ = "request_logs"
+
+    id = Column(Integer, primary_key=True)
+    email_id = Column(Integer, nullable=True)
+    latency_ms = Column(Integer)
+    status = Column(String)
+    created_at = Column(DateTime, default=datetime.utcnow)

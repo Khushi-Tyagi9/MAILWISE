@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+.env
+credentials/credentials.json
+token.pickle
+mailwise.db
+chroma_data/
+.git/

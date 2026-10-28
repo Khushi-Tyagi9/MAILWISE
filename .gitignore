@@ -6,3 +6,8 @@ credentials/credentials.json
 token.pickle
 *.db
 chroma_data/
+.claude/
+CLAUDE.md
+
+eval/labeled_set.jsonl
+eval/private/

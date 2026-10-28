@@ -103,4 +103,3 @@ See [`eval/results.md`](eval/results.md) for full evaluation methodology, bugs f
 - MCP-based Gmail integration
 - Public multi-user deployment (pending Google OAuth verification)
 - Gmail push notifications (Pub/Sub) for real-time processing instead of manual sync
-- Re-label eval set to reflect 4-category taxonomy

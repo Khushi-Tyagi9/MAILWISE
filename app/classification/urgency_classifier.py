@@ -1,15 +1,11 @@
-import os
 import json
-from groq import Groq
-from dotenv import load_dotenv
+from app import llm
 from app.classification.prompts import URGENCY_CLASSIFICATION_PROMPT
 from app.db.session import SessionLocal
 from app.db.models import Email
 from app.classification.rules import rule_based_classify
 
-load_dotenv()
-
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+VALID_LABELS = {"urgent", "routine", "notification", "newsletter"}
 
 def classify_urgency(subject, body, sender=None):
     rule_result = rule_based_classify(subject, sender)
@@ -17,16 +13,12 @@ def classify_urgency(subject, body, sender=None):
         return rule_result
 
     prompt = URGENCY_CLASSIFICATION_PROMPT.format(subject=subject, body=body[:1000])
-    response = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
-        messages=[{"role": "user", "content": prompt}]
-    )
-    raw_output = response.choices[0].message.content
+    raw_output = llm.chat(prompt)
     try:
-        result = json.loads(raw_output)
-        return result["urgency"]
-    except (json.JSONDecodeError, KeyError):
+        label = str(json.loads(raw_output)["urgency"]).strip().lower()
+    except (json.JSONDecodeError, KeyError, TypeError):
         return "routine"
+    return label if label in VALID_LABELS else "routine"
 
 
 def classify_all_pending():

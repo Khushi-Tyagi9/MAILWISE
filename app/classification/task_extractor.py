@@ -1,22 +1,11 @@
-import os
 import json
-from groq import Groq
-from dotenv import load_dotenv
+from app import llm
 from app.classification.prompts import TASK_EXTRACTION_PROMPT
-
-load_dotenv()
-
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 def extract_tasks(subject, body):
     prompt = TASK_EXTRACTION_PROMPT.format(subject=subject, body=body[:1000])
 
-    response = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
-        messages=[{"role": "user", "content": prompt}]
-    )
-
-    raw_output = response.choices[0].message.content
+    raw_output = llm.chat(prompt)
 
     try:
         result = json.loads(raw_output)

@@ -1,7 +1,15 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from app.api.routes import router
+from app.db.session import ensure_schema
 
-app = FastAPI(title="Mailwise API")
+@asynccontextmanager
+async def lifespan(app):
+    ensure_schema()
+    yield
+
+app = FastAPI(title="Mailwise API", lifespan=lifespan)
 app.include_router(router)
 
 @app.get("/")

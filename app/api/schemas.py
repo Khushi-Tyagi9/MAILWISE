@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional, List
+from datetime import datetime
 
 class EmailOut(BaseModel):
     id: int
@@ -10,6 +11,9 @@ class EmailOut(BaseModel):
     draft: Optional[str]
     confidence: Optional[str]
     draft_status: Optional[str]
+    received_at: Optional[datetime] = None
+    tasks: Optional[str] = None  # JSON-encoded list, as stored
+    links: Optional[str] = None  # JSON-encoded list, as stored
 
     class Config:
         from_attributes = True

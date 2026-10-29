@@ -13,6 +13,7 @@ class Email(Base):
     folder = Column(String)
     urgency = Column(String, nullable=True)
     tasks = Column(Text, nullable=True)
+    links = Column(Text, nullable=True)  # JSON list of {text, url, domain, kind}
     draft = Column(Text, nullable=True)
     confidence = Column(String, nullable=True)
     draft_status = Column(String, nullable=True)
